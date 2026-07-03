@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Step 1 - 基本信息</title>
+<style>
+:root { --primary: #4f46e5; --bg: #f5f5f7; --card-bg: #fff; --text: #1e1e2e; --text-muted: #6b7280; --border: #e5e7eb; --radius: 12px; }
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height:100vh; display:flex; align-items:center; justify-content:center; padding:20px; }
+.card { background:var(--card-bg); border-radius:20px; padding:36px 32px; max-width:440px; width:100%; box-shadow: 0 4px 24px rgba(0,0,0,.06); }
+h2 { font-size:22px; color:var(--text); margin-bottom:6px; }
+.subtitle { font-size:14px; color:var(--text-muted); margin-bottom:28px; }
+.field { margin-bottom:20px; }
+.field label { display:block; font-size:14px; font-weight:600; color:var(--text); margin-bottom:6px; }
+.field label .req { color:#ef4444; }
+.field input { width:100%; padding:11px 14px; border:1.5px solid var(--border); border-radius:var(--radius); font-size:15px; color:var(--text); background:#fafafa; outline:none; transition:.2s; }
+.field input:focus { border-color:var(--primary); background:#fff; box-shadow:0 0 0 3px rgba(79,70,229,.1); }
+.btn { width:100%; padding:12px; border:none; border-radius:var(--radius); font-size:15px; font-weight:600; cursor:pointer; background:var(--primary); color:#fff; transition:.2s; }
+.btn:hover { background:#4338ca; transform:translateY(-1px); box-shadow:0 4px 12px rgba(79,70,229,.35); }
+.error-msg { font-size:12px; color:#ef4444; margin-top:4px; display:none; }
+.field.err input { border-color:#ef4444; }
+.field.err .error-msg { display:block; }
+</style>
+</head>
+<body>
+<div class="card">
+  <h2>👋 欢迎！基本信息</h2>
+  <p class="subtitle">请填写您的基本信息，开始使用</p>
+
+  <div class="field" id="fg-name">
+    <label>姓名 <span class="req">*</span></label>
+    <input type="text" id="name" placeholder="请输入您的姓名">
+    <span class="error-msg">请输入姓名</span>
+  </div>
+
+  <div class="field" id="fg-email">
+    <label>邮箱 <span class="req">*</span></label>
+    <input type="email" id="email" placeholder="example@company.com">
+    <span class="error-msg">请输入有效的邮箱地址</span>
+  </div>
+
+  <div class="field" id="fg-phone">
+    <label>手机号</label>
+    <input type="tel" id="phone" placeholder="请输入手机号">
+  </div>
+
+  <button class="btn" onclick="handleNext()">下一步 →</button>
+</div>
+
+<script>
+function handleNext() {
+  let ok = true;
+  const name = document.getElementById('name').value.trim();
+  const email = document.getElementById('email').value.trim();
+  if (!name) { document.getElementById('fg-name').classList.add('err'); ok = false; }
+  else document.getElementById('fg-name').classList.remove('err');
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { document.getElementById('fg-email').classList.add('err'); ok = false; }
+  else document.getElementById('fg-email').classList.remove('err');
+  if (ok) {
+    // TODO: 传递数据到下一步
+    console.log('Step1 数据:', { name, email, phone: document.getElementById('phone').value });
+    alert('验证通过，进入下一步（需接入 Step2）');
+  }
+}
+</script>
+</body>
+</html>

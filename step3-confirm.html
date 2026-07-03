@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Step 3 - 确认提交</title>
+<style>
+:root { --primary: #4f46e5; --success: #10b981; --bg: #f5f5f7; --card-bg: #fff; --text: #1e1e2e; --text-muted: #6b7280; --border: #e5e7eb; --radius: 12px; }
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height:100vh; display:flex; align-items:center; justify-content:center; padding:20px; }
+.card { background:var(--card-bg); border-radius:20px; padding:36px 32px; max-width:440px; width:100%; box-shadow: 0 4px 24px rgba(0,0,0,.06); }
+h2 { font-size:22px; color:var(--text); margin-bottom:6px; }
+.subtitle { font-size:14px; color:var(--text-muted); margin-bottom:28px; }
+.field { margin-bottom:20px; }
+.field label { display:block; font-size:14px; font-weight:600; color:var(--text); margin-bottom:6px; }
+.field textarea { width:100%; padding:11px 14px; border:1.5px solid var(--border); border-radius:var(--radius); font-size:15px; color:var(--text); background:#fafafa; outline:none; resize:vertical; min-height:90px; font-family:inherit; transition:.2s; }
+.field textarea:focus { border-color:var(--primary); background:#fff; box-shadow:0 0 0 3px rgba(79,70,229,.1); }
+.summary { background:#f9fafb; border-radius:var(--radius); padding:16px; font-size:14px; line-height:2; color:var(--text); }
+.summary strong { color:var(--text); }
+.chk { display:flex; align-items:center; gap:10px; cursor:pointer; font-size:14px; color:var(--text); margin-top:16px; }
+.chk input[type=checkbox] { width:18px; height:18px; accent-color:var(--primary); cursor:pointer; }
+.btn-row { display:flex; gap:12px; margin-top:28px; }
+.btn { flex:1; padding:12px; border:none; border-radius:var(--radius); font-size:15px; font-weight:600; cursor:pointer; transition:.2s; }
+.btn-back { background:#f3f4f6; color:var(--text-muted); }
+.btn-back:hover { background:#e5e7eb; color:var(--text); }
+.btn-submit { background:var(--primary); color:#fff; }
+.btn-submit:hover { background:#4338ca; transform:translateY(-1px); box-shadow:0 4px 12px rgba(79,70,229,.35); }
+.btn-submit:disabled { opacity:.5; cursor:not-allowed; transform:none; box-shadow:none; }
+/* 成功页 */
+.done { text-align:center; display:none; }
+.done-icon { width:72px; height:72px; border-radius:50%; background:#d1fae5; display:flex; align-items:center; justify-content:center; margin:0 auto 20px; font-size:36px; }
+.btn-done { width:100%; padding:13px; border:none; border-radius:var(--radius); font-size:16px; font-weight:600; cursor:pointer; background:var(--success); color:#fff; margin-top:20px; transition:.2s; }
+.btn-done:hover { background:#059669; transform:translateY(-1px); }
+</style>
+</head>
+<body>
+<div class="card">
+  <!-- 确认页 -->
+  <div id="confirmPane">
+    <h2>✅ 确认信息</h2>
+    <p class="subtitle">请确认以下信息无误后提交</p>
+
+    <div class="field">
+      <label>备注</label>
+      <textarea id="note" placeholder="有什么想补充的吗？（选填）"></textarea>
+    </div>
+
+    <div class="summary" id="summary">
+      <!-- TODO: 从前面步骤接收数据后动态渲染 -->
+      <em style="color:var(--text-muted)">（需接入 Step1、Step2 数据）</em>
+    </div>
+
+    <label class="chk">
+      <input type="checkbox" id="agree" onchange="document.getElementById('submitBtn').disabled=!this.checked">
+      <span>我已确认以上信息无误</span>
+    </label>
+
+    <div class="btn-row">
+      <button class="btn btn-back" onclick="handleBack()">← 上一步</button>
+      <button class="btn btn-submit" id="submitBtn" onclick="handleSubmit()" disabled>提交</button>
+    </div>
+  </div>
+
+  <!-- 成功页 -->
+  <div class="done" id="donePane">
+    <div class="done-icon">🎉</div>
+    <h2>提交成功！</h2>
+    <p class="subtitle" style="margin-bottom:24px">感谢您的填写，引导流程已完成 ✅</p>
+    <div class="summary" id="finalSummary" style="text-align:left"></div>
+    <button class="btn-done" onclick="handleReset()">🔄 重新填写</button>
+  </div>
+</div>
+
+<script>
+function handleSubmit() {
+  const btn = document.getElementById('submitBtn');
+  btn.textContent = '提交中...';
+  btn.disabled = true;
+  setTimeout(() => {
+    // TODO: 获取前面步骤的数据并提交
+    const data = { note: document.getElementById('note').value };
+    console.log('提交数据:', data);
+    document.getElementById('confirmPane').style.display = 'none';
+    document.getElementById('donePane').style.display = '';
+    document.getElementById('finalSummary').innerHTML = '<em style="color:var(--text-muted)">（需接入 Step1、Step2 数据展示）</em>';
+  }, 1000);
+}
+function handleBack() {
+  // TODO: 返回上一步
+  alert('返回 Step2（需接入）');
+}
+function handleReset() {
+  document.getElementById('confirmPane').style.display = '';
+  document.getElementById('donePane').style.display = 'none';
+  document.getElementById('note').value = '';
+  document.getElementById('agree').checked = false;
+  document.getElementById('submitBtn').disabled = true;
+  document.getElementById('submitBtn').textContent = '提交';
+}
+</script>
+</body>
+</html>

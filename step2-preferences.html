@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Step 2 - 偏好设置</title>
+<style>
+:root { --primary: #4f46e5; --bg: #f5f5f7; --card-bg: #fff; --text: #1e1e2e; --text-muted: #6b7280; --border: #e5e7eb; --radius: 12px; }
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height:100vh; display:flex; align-items:center; justify-content:center; padding:20px; }
+.card { background:var(--card-bg); border-radius:20px; padding:36px 32px; max-width:440px; width:100%; box-shadow: 0 4px 24px rgba(0,0,0,.06); }
+h2 { font-size:22px; color:var(--text); margin-bottom:6px; }
+.subtitle { font-size:14px; color:var(--text-muted); margin-bottom:28px; }
+.field { margin-bottom:20px; }
+.field label { display:block; font-size:14px; font-weight:600; color:var(--text); margin-bottom:6px; }
+.field label .req { color:#ef4444; }
+.field select { width:100%; padding:11px 14px; border:1.5px solid var(--border); border-radius:var(--radius); font-size:15px; color:var(--text); background:#fafafa; outline:none; transition:.2s; appearance:none; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M6 8L1 3h10z' fill='%236b7280'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 14px center; padding-right:36px; cursor:pointer; }
+.field select:focus { border-color:var(--primary); background:#fff; box-shadow:0 0 0 3px rgba(79,70,229,.1); }
+/* 单选 */
+.radio-row { display:flex; gap:12px; }
+.radio-row input { display:none; }
+.radio-row label { flex:1; display:flex; align-items:center; justify-content:center; gap:6px; padding:11px 16px; border:1.5px solid var(--border); border-radius:var(--radius); cursor:pointer; font-size:14px; font-weight:500; color:var(--text-muted); background:#fafafa; transition:.2s; }
+.radio-row input:checked+label { border-color:var(--primary); background:#eef2ff; color:var(--primary); font-weight:600; }
+/* 多选 */
+.chk-list { display:flex; flex-direction:column; gap:10px; }
+.chk-list .chk { display:flex; align-items:center; gap:10px; cursor:pointer; font-size:14px; color:var(--text); }
+.chk-list input[type=checkbox] { width:18px; height:18px; accent-color:var(--primary); cursor:pointer; }
+.btn-row { display:flex; gap:12px; margin-top:28px; }
+.btn { flex:1; padding:12px; border:none; border-radius:var(--radius); font-size:15px; font-weight:600; cursor:pointer; transition:.2s; }
+.btn-back { background:#f3f4f6; color:var(--text-muted); }
+.btn-back:hover { background:#e5e7eb; color:var(--text); }
+.btn-next { background:var(--primary); color:#fff; }
+.btn-next:hover { background:#4338ca; transform:translateY(-1px); box-shadow:0 4px 12px rgba(79,70,229,.35); }
+</style>
+</head>
+<body>
+<div class="card">
+  <h2>⚙️ 偏好设置</h2>
+  <p class="subtitle">告诉我们您的使用偏好</p>
+
+  <div class="field" id="fg-role">
+    <label>角色 <span class="req">*</span></label>
+    <select id="role">
+      <option value="">请选择角色</option>
+      <option value="dev">开发者</option>
+      <option value="design">设计师</option>
+      <option value="pm">产品经理</option>
+      <option value="qa">测试工程师</option>
+      <option value="other">其他</option>
+    </select>
+    <span class="error-msg" style="font-size:12px;color:#ef4444;margin-top:4px;display:none;">请选择角色</span>
+  </div>
+
+  <div class="field">
+    <label>经验水平</label>
+    <div class="radio-row">
+      <input type="radio" name="level" id="lv1" value="junior" checked>
+      <label for="lv1">🌱 初级</label>
+      <input type="radio" name="level" id="lv2" value="mid">
+      <label for="lv2">🌿 中级</label>
+      <input type="radio" name="level" id="lv3" value="senior">
+      <label for="lv3">🌳 高级</label>
+    </div>
+  </div>
+
+  <div class="field">
+    <label>感兴趣的方向</label>
+    <div class="chk-list">
+      <label class="chk"><input type="checkbox" name="interest" value="frontend" checked><span>前端开发</span></label>
+      <label class="chk"><input type="checkbox" name="interest" value="backend"><span>后端开发</span></label>
+      <label class="chk"><input type="checkbox" name="interest" value="ai"><span>AI / 机器学习</span></label>
+      <label class="chk"><input type="checkbox" name="interest" value="devops"><span>DevOps / 运维</span></label>
+    </div>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn btn-back" onclick="handleBack()">← 上一步</button>
+    <button class="btn btn-next" onclick="handleNext()">下一步 →</button>
+  </div>
+</div>
+
+<script>
+function handleNext() {
+  const role = document.getElementById('role').value;
+  if (!role) {
+    document.getElementById('fg-role').querySelector('.error-msg').style.display = 'block';
+    document.getElementById('fg-role').querySelector('select').style.borderColor = '#ef4444';
+    return;
+  }
+  document.getElementById('fg-role').querySelector('.error-msg').style.display = 'none';
+  document.getElementById('fg-role').querySelector('select').style.borderColor = '';
+  const level = document.querySelector('input[name="level"]:checked')?.value;
+  const interests = [...document.querySelectorAll('input[name="interest"]:checked')].map(c => c.value);
+  // TODO: 传递数据到下一步
+  console.log('Step2 数据:', { role, level, interests });
+  alert('验证通过，进入下一步（需接入 Step3）');
+}
+function handleBack() {
+  // TODO: 返回上一步
+  alert('返回 Step1（需接入）');
+}
+</script>
+</body>
+</html>
