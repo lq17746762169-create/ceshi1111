@@ -553,12 +553,8 @@
                     document.getElementById('fg-name').classList.remove('error');
                 }
 
-                if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                    document.getElementById('fg-email').classList.add('error');
-                    valid = false;
                 } else {
-                    document.getElementById('fg-email').classList.remove('error');
-                }
+                    document.g
 
                 return valid;
             }
